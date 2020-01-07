@@ -43,4 +43,5 @@ RUN sudo chown user:user .config && \
 # Needed to boot OpenWrt from SD card: https://github.com/pcengines/apu2-documentation/blob/master/docs/debug/openwrt.md
 COPY kernel-menuconfig.patch .
 RUN git apply kernel-menuconfig.patch
-RUN make
+ARG MAKE_ARGS=""
+RUN make ${MAKE_ARGS}
