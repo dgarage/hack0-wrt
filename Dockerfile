@@ -7,7 +7,8 @@ RUN apt-get update && \
                        libelf-dev ecj fastjar java-propose-classpath \
                        python3-distutils \
                        # make kernel_menuconfig fails if not running with another user
-                       sudo && \
+                       sudo \
+                       unzip && \
     apt-get clean
 
 
@@ -24,6 +25,8 @@ RUN git clone --depth 1 --branch "$OPEN_WRT_TAG" https://github.com/openwrt/open
 WORKDIR /home/user/openwrt
 RUN ./scripts/feeds update -a && ./scripts/feeds install -a
 
+ARG DEV=false
+
 # Our config does what "make menuconfig" would do if:
 # * Setup openwrt for target x86, subtarget x86_64
 # * In Target Images check ext4 and Build GRUB images
@@ -33,9 +36,8 @@ RUN sudo chown user:user .config && \
     make defconfig && \
     # download all dependency source files before final make, enables multi-core compilation
     make download && \
-    # Not strictly needed, but if we want to alter
-    # [kernel-]menuconfig, this will make it faster to do
-    make tools/quilt/compile
+    # [kernel-]menuconfig, this will make it faster to do if we compile that now
+    ( ! $DEV || make tools/quilt/compile )
 
 # Our Kernel changes are doing what "make kernel_menuconfig" if:
 # * Go into Device Drivers → MMC/SD/SDIO
@@ -45,3 +47,12 @@ COPY kernel-menuconfig.patch .
 RUN git apply kernel-menuconfig.patch
 ARG MAKE_ARGS=""
 RUN make ${MAKE_ARGS}
+
+USER root
+RUN wget -qO "/opt/balena-etcher-cli.tar.gz" https://github.com/balena-io/etcher/releases/download/v1.4.8/balena-etcher-cli-1.4.8-linux-x64.tar.gz && \
+    echo "9befa06b68bb5846bcf5a9516785d48d6aaa9364d80a5802deb5b6a968bf5404  /opt/balena-etcher-cli.tar.gz" | sha256sum -c - && \
+    mkdir -p /opt/balena && \
+    tar -xvf /opt/balena-etcher-cli.tar.gz --strip-components=1 -C /opt/balena && rm /opt/balena-etcher-cli.tar.gz && \
+    ln -sf /opt/balena/balena-etcher /bin/balena-etcher
+
+ENTRYPOINT [ "balena-etcher", "bin/targets/x86/64/openwrt-x86-64-combined-ext4.img", "-y", "-d" ]
