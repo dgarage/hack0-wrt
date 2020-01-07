@@ -45,6 +45,9 @@ while (( "$#" )); do
   esac
 done
 
+if ! $DEPLOY && ! $BUILD; then
+    HELP=true
+fi
 
 if $HELP; then cat <<-END
 Usage:
