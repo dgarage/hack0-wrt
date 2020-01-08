@@ -49,4 +49,5 @@ ARG MAKE_ARGS=""
 RUN make ${MAKE_ARGS}
 
 USER root
-ENTRYPOINT [ "dd", "bs=8M", "if=bin/targets/x86/64/openwrt-x86-64-combined-ext4.img" ]
+COPY docker-entrypoint.sh .
+ENTRYPOINT [ "docker-entrypoint.sh" ]
