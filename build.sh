@@ -45,7 +45,7 @@ while (( "$#" )); do
   esac
 done
 
-if ! $DEPLOY && ! $BUILD; then
+if ! $DEPLOY && ! $BUILD $$ !$EXTRACT; then
     HELP=true
 fi
 
@@ -62,6 +62,7 @@ Build or deploy the openwrt image
     --deploy-on /dev/sda: Flash the image on the device /dev/sda
     --help: Show this help
 END
+exit 0
 fi
 
 if $DEV; then
