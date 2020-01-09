@@ -5,6 +5,7 @@ HELP=true
 DEPLOY=false
 BUILD=false
 DEV=false
+EXTRACT=false
 DEPLOY_ON=""
 while (( "$#" )); do
   case "$1" in
