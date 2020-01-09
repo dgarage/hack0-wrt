@@ -73,7 +73,7 @@ fi
 
 echo "Selecting image $IMAGE_NAME"
 if $BUILD; then
-    docker build -t $IMAGE_NAME .
+    docker build -t $IMAGE_NAME --build-arg "MAKE_ARGS=$MAKE_ARGS" .
     echo "Image $IMAGE_NAME successfully built"
 fi
 
