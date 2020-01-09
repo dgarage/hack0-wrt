@@ -9,12 +9,17 @@ DEPLOY_ON=""
 while (( "$#" )); do
   case "$1" in
     deploy)
-      HELP=false
       DEPLOY=true
+      HELP=false
       shift 1
       ;;
     build)
       BUILD=true
+      HELP=false
+      shift 1
+      ;;
+    extract)
+      EXTRACT=true
       HELP=false
       shift 1
       ;;
@@ -44,10 +49,6 @@ while (( "$#" )); do
       ;;
   esac
 done
-
-if ! $DEPLOY && ! $BUILD $$ !$EXTRACT; then
-    HELP=true
-fi
 
 if $HELP; then cat <<-END
 Usage:
