@@ -50,4 +50,4 @@ RUN make ${MAKE_ARGS}
 
 USER root
 COPY docker-entrypoint.sh .
-ENTRYPOINT [ "docker-entrypoint.sh" ]
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
