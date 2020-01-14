@@ -45,6 +45,13 @@ RUN sudo chown user:user .config && \
 # Needed to boot OpenWrt from SD card: https://github.com/pcengines/apu2-documentation/blob/master/docs/debug/openwrt.md
 COPY kernel-menuconfig.patch .
 RUN git apply kernel-menuconfig.patch
+
+ENV APU_FIRMWARE="https://3mdeb.com/open-source-firmware/pcengines/apu4/apu4_v4.11.0.2.rom"
+ENV APU_FIRMWARE_HASH="536c504e5e2b679fed38aea20953f6044cc171a65631e1316309ec20b9a0280c  apu4_v4.11.0.2.rom"
+RUN mkdir -p files && \
+    cd files && wget -q "${APU_FIRMWARE}" && \
+    echo "$APU_FIRMWARE_HASH" | sha256sum -c -
+
 ARG MAKE_ARGS=""
 RUN make ${MAKE_ARGS}
 
