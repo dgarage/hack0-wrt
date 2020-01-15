@@ -19,7 +19,7 @@ USER user
 WORKDIR /home/user
 
 
-ENV OPEN_WRT_TAG=v18.06.5
+ENV OPEN_WRT_TAG=v19.07.0
 RUN git clone --depth 1 --branch "$OPEN_WRT_TAG" https://github.com/openwrt/openwrt
 
 WORKDIR /home/user/openwrt
