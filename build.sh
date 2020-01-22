@@ -55,7 +55,6 @@ Build or deploy the openwrt image
     build: Build openwrt inside a docker container
     deploy: Deploy the last built image on the --deploy-device
     extract: Extract the image from the docker image and place in the bin/ folder
-    --dev: Build a openwrt docker image with some prebuilt tool to use make kernel_menuconfig
     --deploy-on /dev/sda: Flash the image on the device /dev/sda
     --help: Show this help
 END
