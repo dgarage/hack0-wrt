@@ -32,7 +32,6 @@ RUN ./scripts/feeds update -a && \
     cd .. && \
     ./scripts/feeds install -a
 
-ARG DEV=false
 # Our config does what "make menuconfig" would do if:
 # * Setup openwrt for target x86, subtarget x86_64
 # * In Target Images check ext4 and Build GRUB images
@@ -42,9 +41,7 @@ COPY menuconfig.diff .config
 RUN sudo chown user:user .config && \
     make defconfig && \
     # download all dependency source files before final make, enables multi-core compilation
-    make download && \
-    # [kernel-]menuconfig, this will make it faster to do if we compile that now
-    ( ! $DEV || make tools/quilt/compile )
+    make download
 
 # Our Kernel changes are doing what "make kernel_menuconfig" if:
 # * Go into Device Drivers → MMC/SD/SDIO

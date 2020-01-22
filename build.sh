@@ -4,7 +4,6 @@ set -e
 HELP=true
 DEPLOY=false
 BUILD=false
-DEV=false
 EXTRACT=false
 DEPLOY_ON=""
 while (( "$#" )); do
@@ -24,10 +23,6 @@ while (( "$#" )); do
       HELP=false
       shift 1
       ;;
-    --dev)
-        DEV=true
-        shift 1
-        ;;
     --help)
         HELP=true
         shift 1
@@ -67,11 +62,7 @@ END
 exit 0
 fi
 
-if $DEV; then
-    IMAGE_NAME="openwrt-dev"
-else
-    IMAGE_NAME="openwrt"
-fi
+IMAGE_NAME="openwrt"
 
 echo "Selecting image $IMAGE_NAME"
 if $BUILD; then
