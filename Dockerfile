@@ -29,7 +29,7 @@ RUN ./scripts/feeds update -a && \
     cd feeds/packages && \
     git fetch && \
     git diff HEAD e154fc473c0fcd3da8ad7b43f489ff48745e6dfe -- net/coova-chilli/ | git apply --whitespace=nowarn && \
-    cd .. && \
+    cd ../.. && \
     ./scripts/feeds install -a
 
 # Our config does what "make menuconfig" would do if:
