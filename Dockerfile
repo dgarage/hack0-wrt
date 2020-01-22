@@ -23,7 +23,14 @@ ENV OPEN_WRT_TAG=v19.07.0
 RUN git clone --depth 1 --branch "$OPEN_WRT_TAG" https://github.com/openwrt/openwrt
 
 WORKDIR /home/user/openwrt
-RUN ./scripts/feeds update -a && ./scripts/feeds install -a
+
+# Update feed, and apply patches to get the latest version of coovachilli (1.5.2 instead of 1.4)
+RUN ./scripts/feeds update -a && \
+    cd feeds/packages && \
+    git fetch && \
+    git diff HEAD e154fc473c0fcd3da8ad7b43f489ff48745e6dfe -- net/coova-chilli/ | git apply --whitespace=nowarn && \
+    cd .. && \
+    ./scripts/feeds install -a
 
 ARG DEV=false
 # Our config does what "make menuconfig" would do if:
