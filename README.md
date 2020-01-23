@@ -27,3 +27,14 @@ Find your device with `lsblk` and run
 BE CAREFUL, if you use the wrong interface you may format important data.
 
 For more information, use `./build.sh --help`.
+
+## Infrastucture
+
+The hack0-wrt is composed from two devices:
+* apu4c4
+* hack0
+
+The apu4c4 is a router running a custom image of openwrt built by this repository.
+It setup the network with the following infrastructure.
+
+![Infrastructure](doc/network.png)
