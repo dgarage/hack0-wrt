@@ -27,8 +27,17 @@ WORKDIR /home/user/openwrt
 # Update feed, and apply patches to get the latest version of coovachilli (1.5.2 instead of 1.4)
 RUN ./scripts/feeds update -a && \
     cd feeds/packages && \
-    git fetch && \
+    git fetch
+
+COPY coova-chilli.patch feeds/packages/coova-chilli.patch
+
+RUN cd feeds/packages && \
+    git config --global user.email "you@example.com" && git config --global user.name "Your Name" && \
     git diff HEAD e154fc473c0fcd3da8ad7b43f489ff48745e6dfe -- net/coova-chilli/ | git apply --whitespace=nowarn && \
+    git add . && \
+    git commit -am "Update Coova Chilli to 1.5" && \
+    git apply --ignore-whitespace coova-chilli.patch && \
+    git commit -am "Enable mdns and super debug" && \
     cd ../.. && \
     ./scripts/feeds install -a
 

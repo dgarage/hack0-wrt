@@ -1,0 +1,12 @@
+diff --git a/net/coova-chilli/Makefile b/net/coova-chilli/Makefile
+index 45e763e87..bfda7506c 100644
+--- a/net/coova-chilli/Makefile
++++ b/net/coova-chilli/Makefile
+@@ -116,6 +116,7 @@ define Build/Configure
+        $(if $(CONFIG_COOVACHILLI_WOLFSSL),--with,--without)-cyassl \
+        $(if $(CONFIG_COOVACHILLI_OPENSSL),--with,--without)-openssl \
+        $(if $(CONFIG_PACKAGE_kmod-ipt-coova),--with-nfcoova) \
++       --enable-debug2 --enable-mdns \
+        )
+ endef
+
